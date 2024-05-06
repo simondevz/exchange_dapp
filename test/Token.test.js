@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-undef */
-const { tokens, EVM_REVERT } = require("./helpers");
+const { tokens, EVM_REVERT, eventTester } = require("./helpers");
 const chai = require("chai");
 const chaiAsPromised = require("chai-as-promised");
 
@@ -67,15 +67,11 @@ contract("Token", ([deployer, recieiver, exchange]) => {
       });
 
       it("emits a transfer event", async () => {
-        const log = result.logs[0];
-        log.event.should.equal("Transfer");
-
-        const event = log.args;
-        event.from.should.equal(deployer, "from is correct");
-        event.to.should.equal(recieiver, "to is correct");
-        event.value
-          .toString()
-          .should.equal(amount.toString(), "value is correct");
+        eventTester(result, "Transfer", {
+          from: deployer,
+          to: recieiver,
+          value: amount.toString(),
+        });
       });
     });
 
@@ -118,15 +114,11 @@ contract("Token", ([deployer, recieiver, exchange]) => {
       });
 
       it("emits a Approval event", async () => {
-        const log = result.logs[0];
-        log.event.should.equal("Approval");
-
-        const event = log.args;
-        event.owner.should.equal(deployer, "owner is correct");
-        event.spender.should.equal(exchange, "spender is correct");
-        event.value
-          .toString()
-          .should.equal(amount.toString(), "value is correct");
+        eventTester(result, "Approval", {
+          owner: deployer,
+          spender: exchange,
+          value: amount.toString(),
+        });
       });
     });
 
@@ -169,15 +161,11 @@ contract("Token", ([deployer, recieiver, exchange]) => {
       });
 
       it("emits a transfer event", async () => {
-        const log = result.logs[0];
-        log.event.should.equal("Transfer");
-
-        const event = log.args;
-        event.from.should.equal(deployer, "from is correct");
-        event.to.should.equal(recieiver, "to is correct");
-        event.value
-          .toString()
-          .should.equal(amount.toString(), "value is correct");
+        eventTester(result, "Transfer", {
+          from: deployer,
+          to: recieiver,
+          value: amount.toString(),
+        });
       });
     });
 
