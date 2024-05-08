@@ -23,5 +23,16 @@ exportObj.eventTester = (result, eventName, testParams) => {
   });
 };
 
+exportObj.orderTester = (order, params) => {
+  const keys = Object.keys(params);
+  keys.forEach((key) => {
+    order[key].toString().should.equal(params[key], key + " is correct");
+  });
+
+  order.timestamp
+    .toString()
+    .length.should.be.at.least(1, "timestamp is present");
+};
+
 // eslint-disable-next-line no-undef
 module.exports = exportObj;
